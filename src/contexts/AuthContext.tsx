@@ -35,7 +35,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -79,6 +78,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     await signOut(auth);
   };
+
+  useEffect(() => {
+    const getToken = async () => {
+      const token = await user?.getIdToken();
+      console.log('User token:', token);
+    };
+
+    getToken();
+  }, [user]);
 
   const value: AuthContextType = {
     user,
